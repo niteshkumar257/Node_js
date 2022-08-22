@@ -1,0 +1,72 @@
+<html lang="en">
+<%- include("./partials/header.ejs") %>
+<style>
+  .details-box
+  {
+     display: flex;
+     justify-content: space-evenly;
+     align-items: center;
+  }
+  .delete_btn
+  {
+    background-color: rgba(166, 244, 218, 0.895);
+    width: 5rem;
+    height: 2rem;
+    border-radius: 23px;
+    cursor: pointer;
+    font-weight: 900;
+    font-style: bold;
+   
+  
+  }
+  .delete_btn:hover
+  {
+    background-color: rgb(13, 179, 123);
+  }
+  .details-nav
+  {
+   display: flex;
+    justify-content: space-between;
+  }
+</style>
+<body>
+  <%- include("./partials/nav.ejs") %>
+ 
+  <div clsss="details-box">
+    <div class="details-nav">
+    
+      <div>
+        <h2><%= blog.title %></h2>
+      </div>
+      
+      <div>
+        <a class="delete" data-doc="<%= blog._id %>"><button class="delete_btn"><span >Delete</span></button></a>
+      </div>
+    </div>
+    <div class="details content">
+      <div class="content">
+        <p><%= blog.body %></p>
+      </div>
+    
+    
+    </div>
+  </div>
+ 
+  <script>
+    const trashcan = document.querySelector('a.delete');
+    trashcan.addEventListener('click', (e) => {
+      const endpoint = `/blogs/${trashcan.dataset.doc}`;
+      fetch(endpoint, {
+        method: 'DELETE',
+      })
+      .then(response => response.json())
+      .then(data => window.location.href = data.redirect)
+      .catch(err => console.log(err));
+    });
+    
+  </script>
+  <%- include("./partials/footer.ejs") %>
+
+  
+</body>
+</html>
